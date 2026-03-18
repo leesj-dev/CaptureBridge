@@ -1,6 +1,12 @@
-# Capture Bridge
+# CaptureBridge
 
-Capture Bridge is a native-camera upload web app for mobile phones. It captures a photo through the device camera, uploads the original file to a macOS host folder, and keeps that folder ready for SMB access from another device.
+CaptureBridge is a mobile web app that lets you capture photos with your device camera, upload the original files to a folder on a macOS host, and access that folder over SMB from another device.
+
+## Why It Helps
+
+A typical use case is capturing whiteboard photos with an iPhone and then annotating them on an iPad in a note-taking app (e.g. GoodNotes). The iPad camera may not have the zoom range you want, so using the iPhone telephoto lens is more practical, but the usual workflow is slow: open the Camera app, take a photo, share it over AirDrop, pick the iPad, get kicked into the Photos app on the iPad, switch back to your note-taking app, and insert the image. You have to repeat that for every shot during a live lecture session.
+
+With CaptureBridge, you can keep the web app open on the iPhone and just take photos whenever you need them. Each photo is uploaded to the shared folder automatically, so on the iPad side you only need to pull the images into the note-taking app from the SMB share.
 
 ## Stack
 
@@ -15,7 +21,7 @@ Capture Bridge is a native-camera upload web app for mobile phones. It captures 
 1. Copy `.env.example` to `.env` and set `UPLOAD_DIR`.
 2. Run `npm install`.
 3. Run `npm start`.
-4. Open `http://127.0.0.1:3000` locally or the Tailscale Serve HTTPS URL from another device.
+4. Open `http://127.0.0.1:3000` locally or, if configured, the Tailscale Serve HTTPS URL from another device.
 5. Add the page to the mobile home screen.
 
 ## Scripts
@@ -46,7 +52,7 @@ The app is then available at a tailnet-only HTTPS URL such as `https://your-devi
 ./scripts/setup-smb-share.sh "$HOME/Pictures/CaptureBridge" CaptureBridge
 ```
 
-This script calls `sudo sharing -a ... -S CaptureBridge`.
+This script creates the SMB share on macOS for the target folder and share name.
 
 ## Client Access
 
@@ -66,6 +72,7 @@ Use `Connect to Server` and connect to the macOS host by Tailscale IP or MagicDN
 
 - `multipart/form-data`
 - field name: `photo`
+- supported mime types: `image/heic`, `image/heif`, `image/jpeg`, `image/png`, `image/webp`
 
 Example response:
 
