@@ -1,6 +1,6 @@
 {
-  "name": "Capture Bridge",
-  "short_name": "Capture",
+  "name": "CaptureBridge",
+  "short_name": "CaptureBridge",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#08080d",

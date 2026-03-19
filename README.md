@@ -16,29 +16,34 @@ With CaptureBridge, you can keep the web app open on the iPhone and just take ph
 - Runtime: `launchd` plus `tailscale serve`
 - Share target: macOS SMB share named `CaptureBridge`
 
-## Quick Start
+## Prerequisites
+- macOS host with Node.js
+- To open the app over the tailnet, install Tailscale for all client and host devices.
 
-1. Copy `.env.example` to `.env` and set `UPLOAD_DIR`.
-2. Run `npm install`.
-3. Run `npm start`.
-4. Open `http://127.0.0.1:3000` locally or, if configured, the Tailscale Serve HTTPS URL from another device.
-5. Add the page to the mobile home screen.
+## Setup
 
-## Scripts
+1. Copy `.env.example` to `.env` and set `UPLOAD_DIR` to save the images.
+2. Install dependencies.
 
-- `npm start`: start the server
-- `npm run dev`: start the server in watch mode
-- `npm test`: run the Node test suite
+```sh
+npm install
+```
 
-## System Setup
+3. Start the server and verify that the app opens locally.
 
-### 1. Install the LaunchAgent
+```sh
+npm start
+```
+
+Open `http://127.0.0.1:3000` on the macOS host, or open the Tailscale Serve HTTPS URL from another device if you configure it in a later step. Once it looks good on mobile, add the page to the home screen.
+
+4. Install the LaunchAgent so the server starts automatically on macOS.
 
 ```sh
 ./scripts/install-launch-agent.sh
 ```
 
-### 2. Enable Tailscale Serve HTTPS
+5. If you want tailnet-only HTTPS access from another device, enable Tailscale Serve.
 
 ```sh
 ./scripts/setup-tailscale-serve.sh 3000
@@ -46,7 +51,7 @@ With CaptureBridge, you can keep the web app open on the iPhone and just take ph
 
 The app is then available at a tailnet-only HTTPS URL such as `https://your-device-name.your-tailnet.ts.net/`.
 
-### 3. Create the SMB CaptureBridge share
+6. Create the SMB `CaptureBridge` share for the upload folder.
 
 ```sh
 ./scripts/setup-smb-share.sh "$HOME/Pictures/CaptureBridge" CaptureBridge
@@ -54,9 +59,19 @@ The app is then available at a tailnet-only HTTPS URL such as `https://your-devi
 
 This script creates the SMB share on macOS for the target folder and share name.
 
+## Scripts
+
+- `npm start`: start the server
+- `npm run dev`: start the server in watch mode
+- `npm test`: run the Node test suite
+
 ## Client Access
 
-Use `Connect to Server` and connect to the macOS host by Tailscale IP or MagicDNS name. Favorite the `CaptureBridge` share for quick access from your note-taking or document app.
+1. Open the Files app.
+2. Tap the more menu and choose `Connect to Server`.
+3. Connect to the macOS host by Tailscale IP or MagicDNS name.
+4. Open the `CaptureBridge` share.
+5. Favorite it for quick access for the note-taking app.
 
 ## Upload API
 
