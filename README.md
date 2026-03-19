@@ -1,6 +1,6 @@
 # CaptureBridge
 
-CaptureBridge is a mobile web app that lets you capture photos with your device camera, upload the original files to a folder on a macOS host, and access that folder over SMB from another device.
+CaptureBridge is a mobile web app that lets you capture photos with your device camera, upload the original files to a folder on a Mac host, and access that folder over SMB from another device.
 
 ## Why It Helps
 
@@ -17,8 +17,9 @@ With CaptureBridge, you can keep the web app open on the iPhone and just take ph
 - Share target: macOS SMB share named `CaptureBridge`
 
 ## Prerequisites
-- macOS host with Node.js
-- To open the app over the tailnet, install Tailscale for all client and host devices.
+- A Mac host such as a MacBook or Mac mini, with Node.js installed
+- To open the app over the tailnet, install Tailscale for all client and host devices
+- If you use a MacBook as the host, keep it awake and connected to the network while capturing photos
 
 ## Setup
 
@@ -35,9 +36,9 @@ npm install
 npm start
 ```
 
-Open `http://127.0.0.1:3000` on the macOS host, or open the Tailscale Serve HTTPS URL from another device if you configure it in a later step. Once it looks good on mobile, add the page to the home screen.
+Open `http://127.0.0.1:3000` on the Mac host, or open the Tailscale Serve HTTPS URL from another device if you configure it in a later step. Once it looks good on mobile, add the page to the home screen.
 
-4. Install the LaunchAgent so the server starts automatically on macOS.
+4. Install the LaunchAgent so the server starts automatically on the Mac host.
 
 ```sh
 ./scripts/install-launch-agent.sh
@@ -57,7 +58,7 @@ The app is then available at a tailnet-only HTTPS URL such as `https://your-devi
 ./scripts/setup-smb-share.sh "$HOME/Pictures/CaptureBridge" CaptureBridge
 ```
 
-This script creates the SMB share on macOS for the target folder and share name.
+This script creates the SMB share on the Mac host for the target folder and share name.
 
 ## Scripts
 
@@ -69,7 +70,7 @@ This script creates the SMB share on macOS for the target folder and share name.
 
 1. Open the Files app.
 2. Tap the more menu and choose `Connect to Server`.
-3. Connect to the macOS host by Tailscale IP or MagicDNS name.
+3. Connect to the Mac host by LAN IP, Tailscale IP, or MagicDNS name.
 4. Open the `CaptureBridge` share.
 5. Favorite it for quick access for the note-taking app.
 
